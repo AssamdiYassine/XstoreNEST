@@ -13,4 +13,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./tokens.type"), exports);
 __exportStar(require("./jwtPayload.type"), exports);
 __exportStar(require("./jwtPayloadWithRt.type"), exports);
+__exportStar(require("./user.type"), exports);
 //# sourceMappingURL=index.js.map

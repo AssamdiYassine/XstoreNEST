@@ -23,12 +23,17 @@ let AuthService = class AuthService {
         this.config = config;
     }
     async signupLocal(dto) {
-        const hash = await argon.hash(dto.password);
+        const hash = await argon.hash(dto.password1);
+        console.log(dto);
         const user = await this.prisma.user
             .create({
             data: {
                 email: dto.email,
                 hash,
+                lastName: dto.lastName,
+                firstName: dto.firstName,
+                birthdate: dto.birthdate,
+                gender: dto.gender,
             },
         })
             .catch((error) => {
@@ -56,7 +61,30 @@ let AuthService = class AuthService {
             throw new common_1.ForbiddenException('Access Denied');
         const tokens = await this.getTokens(user.id, user.email);
         await this.updateRtHash(user.id, tokens.refresh_token);
-        return tokens;
+        return {
+            user,
+            access_token: tokens.access_token,
+            refresh_token: tokens.refresh_token,
+        };
+    }
+    async user(dto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email,
+            },
+        });
+        if (!user)
+            throw new common_1.ForbiddenException('Access Denied');
+        const passwordMatches = await argon.verify(user.hash, dto.password);
+        if (!passwordMatches)
+            throw new common_1.ForbiddenException('Access Denied');
+        const tokens = await this.getTokens(user.id, user.email);
+        await this.updateRtHash(user.id, tokens.refresh_token);
+        return {
+            user,
+            access_token: tokens.access_token,
+            refresh_token: tokens.refresh_token,
+        };
     }
     async logout(userId) {
         await this.prisma.user.updateMany({

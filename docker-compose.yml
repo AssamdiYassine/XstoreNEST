@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db:
+  dev-db:
     image: postgres:13
     ports:
       - 5432:5432
@@ -8,6 +8,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: nestjs
+    networks:
+        - Xstore
   test-db:
     image: postgres:13
     ports:
@@ -16,4 +18,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: nestjs
-
+    networks:
+        - Xstore
+networks:
+    Xstore:

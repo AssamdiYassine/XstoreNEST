@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "gender" SET DATA TYPE TEXT,
+ALTER COLUMN "home_country" DROP NOT NULL;

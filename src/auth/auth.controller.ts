@@ -1,35 +1,39 @@
 import {
   Body,
-  Controller,
+  Controller, Get,
   HttpCode,
   HttpStatus,
   Post,
   UseGuards,
 } from '@nestjs/common';
-
-import { Public, GetCurrentUserId, GetCurrentUser } from '../common/decorators';
+ import { Public, GetCurrentUserId, GetCurrentUser } from '../common/decorators';
 import { RtGuard } from '../common/guards';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto';
-import { Tokens } from './types';
+import { AuthDtoLogin, AuthDtoRegistration} from './dto';
+import { Tokens ,User} from './types';
 
-@Controller('auth')
+@Controller('auth-user')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @Post('local/signup')
+  @Post('registration')
   @HttpCode(HttpStatus.CREATED)
-  signupLocal(@Body() dto: AuthDto): Promise<Tokens> {
+  signupLocal(@Body() dto: AuthDtoRegistration): Promise<Tokens> {
     return this.authService.signupLocal(dto);
   }
 
   @Public()
-  @Post('local/signin')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
-  signinLocal(@Body() dto: AuthDto): Promise<Tokens> {
+  signinLocal(@Body() dto: AuthDtoLogin): Promise<Tokens> {
     return this.authService.signinLocal(dto);
   }
+  @Get('user')
+  getMe(@GetCurrentUser() user: User) {
+    return user;
+  }
+
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)

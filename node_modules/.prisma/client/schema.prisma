@@ -11,14 +11,17 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  firstName String
-  lastName String
-  email    String  @unique
-  hash     String
-  hashedRt String?
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  firstName    String
+  lastName     String
+  email        String   @unique
+  hash         String
+  hashedRt     String?
+  home_country String?
+  birthdate    String
+  gender       String
 
   @@map("users")
 }

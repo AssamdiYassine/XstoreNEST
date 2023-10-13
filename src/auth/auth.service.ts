@@ -5,7 +5,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as argon from 'argon2';
 import { PrismaService } from '../prisma/prisma.service';
 
-import { AuthDto } from './dto';
+import { AuthDtoLogin, AuthDtoRegistration} from './dto';
 import { JwtPayload, Tokens } from './types';
 
 @Injectable()
@@ -16,14 +16,19 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async signupLocal(dto: AuthDto): Promise<Tokens> {
-    const hash = await argon.hash(dto.password);
-
+  async signupLocal(dto: AuthDtoRegistration): Promise<Tokens> {
+    const hash = await argon.hash(dto.password1);
+    console.log(dto)
     const user = await this.prisma.user
       .create({
         data: {
           email: dto.email,
           hash,
+          lastName: dto.lastName,
+          firstName: dto.firstName,
+          birthdate: dto.birthdate,
+          gender: dto.gender,
+
         },
       })
       .catch((error) => {
@@ -41,7 +46,7 @@ export class AuthService {
     return tokens;
   }
 
-  async signinLocal(dto: AuthDto): Promise<Tokens> {
+  async signinLocal(dto: AuthDtoLogin){
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
@@ -56,7 +61,32 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
 
-    return tokens;
+    return  {
+      user,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    };
+  }
+async user(dto: AuthDtoLogin){
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (!user) throw new ForbiddenException('Access Denied');
+
+    const passwordMatches = await argon.verify(user.hash, dto.password);
+    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRtHash(user.id, tokens.refresh_token);
+
+    return  {
+      user,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    };
   }
 
   async logout(userId: number): Promise<boolean> {

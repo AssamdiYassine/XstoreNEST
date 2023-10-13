@@ -28,6 +28,9 @@ let AuthController = class AuthController {
     signinLocal(dto) {
         return this.authService.signinLocal(dto);
     }
+    getMe(user) {
+        return user;
+    }
     logout(userId) {
         return this.authService.logout(userId);
     }
@@ -37,22 +40,29 @@ let AuthController = class AuthController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)('local/signup'),
+    (0, common_1.Post)('registration'),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:paramtypes", [dto_1.AuthDtoRegistration]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signupLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)('local/signin'),
+    (0, common_1.Post)('login'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:paramtypes", [dto_1.AuthDtoLogin]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signinLocal", null);
+__decorate([
+    (0, common_1.Get)('user'),
+    __param(0, (0, decorators_1.GetCurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "getMe", null);
 __decorate([
     (0, common_1.Post)('logout'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
@@ -73,7 +83,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refreshTokens", null);
 AuthController = __decorate([
-    (0, common_1.Controller)('auth'),
+    (0, common_1.Controller)('auth-user'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 exports.AuthController = AuthController;
