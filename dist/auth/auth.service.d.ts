@@ -14,11 +14,6 @@ export declare class AuthService {
         access_token: string;
         refresh_token: string;
     }>;
-    user(dto: AuthDtoLogin): Promise<{
-        user: import(".prisma/client").User;
-        access_token: string;
-        refresh_token: string;
-    }>;
     logout(userId: number): Promise<boolean>;
     refreshTokens(userId: number, rt: string): Promise<Tokens>;
     updateRtHash(userId: number, rt: string): Promise<void>;

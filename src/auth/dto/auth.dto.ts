@@ -21,6 +21,7 @@ export class AuthDtoRegistration {
   @IsString()
   firstName: string;
 
+
   @IsNotEmpty()
   @IsString()
   birthdate: string;

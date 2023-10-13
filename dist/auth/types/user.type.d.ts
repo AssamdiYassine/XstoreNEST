@@ -3,6 +3,7 @@ export declare type User = {
     email: string;
     last_name: string;
     first_name: string;
+    username: string;
     location: string;
     gender: string;
     home_city: string;

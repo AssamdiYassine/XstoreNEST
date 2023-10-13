@@ -25,6 +25,7 @@ let AuthService = class AuthService {
     async signupLocal(dto) {
         const hash = await argon.hash(dto.password1);
         console.log(dto);
+        const username = `${dto.firstName[0].toLowerCase()}.${dto.lastName.toLowerCase()}`;
         const user = await this.prisma.user
             .create({
             data: {
@@ -32,7 +33,9 @@ let AuthService = class AuthService {
                 hash,
                 lastName: dto.lastName,
                 firstName: dto.firstName,
+                username,
                 birthdate: dto.birthdate,
+                home_country: dto.home_country,
                 gender: dto.gender,
             },
         })
@@ -49,25 +52,6 @@ let AuthService = class AuthService {
         return tokens;
     }
     async signinLocal(dto) {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                email: dto.email,
-            },
-        });
-        if (!user)
-            throw new common_1.ForbiddenException('Access Denied');
-        const passwordMatches = await argon.verify(user.hash, dto.password);
-        if (!passwordMatches)
-            throw new common_1.ForbiddenException('Access Denied');
-        const tokens = await this.getTokens(user.id, user.email);
-        await this.updateRtHash(user.id, tokens.refresh_token);
-        return {
-            user,
-            access_token: tokens.access_token,
-            refresh_token: tokens.refresh_token,
-        };
-    }
-    async user(dto) {
         const user = await this.prisma.user.findUnique({
             where: {
                 email: dto.email,
