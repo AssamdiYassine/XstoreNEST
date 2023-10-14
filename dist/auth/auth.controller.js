@@ -28,9 +28,6 @@ let AuthController = class AuthController {
     signinLocal(dto) {
         return this.authService.signinLocal(dto);
     }
-    getMe(user) {
-        return user;
-    }
     logout(userId) {
         return this.authService.logout(userId);
     }
@@ -57,13 +54,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signinLocal", null);
 __decorate([
-    (0, common_1.Get)('user'),
-    __param(0, (0, decorators_1.GetCurrentUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "getMe", null);
-__decorate([
     (0, common_1.Post)('logout'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, decorators_1.GetCurrentUserId)()),
@@ -74,7 +64,7 @@ __decorate([
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.UseGuards)(guards_1.RtGuard),
-    (0, common_1.Post)('refresh'),
+    (0, common_1.Post)('token/refresh'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, decorators_1.GetCurrentUserId)()),
     __param(1, (0, decorators_1.GetCurrentUser)('refreshToken')),

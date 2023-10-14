@@ -29,11 +29,6 @@ export class AuthController {
   signinLocal(@Body() dto: AuthDtoLogin): Promise<Tokens> {
     return this.authService.signinLocal(dto);
   }
-  @Get('user')
-  getMe(@GetCurrentUser() user: User) {
-    return user;
-  }
-
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
@@ -43,7 +38,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(RtGuard)
-  @Post('refresh')
+  @Post('token/refresh')
   @HttpCode(HttpStatus.OK)
   refreshTokens(
     @GetCurrentUserId() userId: number,

@@ -25,15 +25,17 @@ let AuthService = class AuthService {
     async signupLocal(dto) {
         const hash = await argon.hash(dto.password1);
         console.log(dto);
-        const username = `${dto.firstName[0].toLowerCase()}.${dto.lastName.toLowerCase()}`;
+        const username = `${dto.first_name[0].toLowerCase()}.${dto.last_name.toLowerCase()}`;
+        let full_name = `${dto.first_name} ${dto.last_name}`;
         const user = await this.prisma.user
             .create({
             data: {
                 email: dto.email,
                 hash,
-                lastName: dto.lastName,
-                firstName: dto.firstName,
+                first_name: dto.first_name,
+                last_name: dto.last_name,
                 username,
+                full_name,
                 birthdate: dto.birthdate,
                 home_country: dto.home_country,
                 gender: dto.gender,

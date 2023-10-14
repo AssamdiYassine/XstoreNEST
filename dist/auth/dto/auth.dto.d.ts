@@ -2,8 +2,8 @@ export declare class AuthDtoRegistration {
     email: string;
     password1: string;
     password2: string;
-    lastName: string;
-    firstName: string;
+    last_name: string;
+    first_name: string;
     birthdate: string;
     home_country: string;
     gender: string;

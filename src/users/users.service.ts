@@ -1,11 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import {ForbiddenException, Injectable} from '@nestjs/common';
+import {AuthDtoLogin} from "../auth/dto";
+import * as argon from "argon2";
+import {PrismaService} from "../prisma/prisma.service";
+import {User} from "../auth/types";
 
 
 @Injectable()
 export class UsersService {
+  constructor(
+      private prisma: PrismaService
+  ) {}
 
-  userDetail() {
-    return `This action returns all users`;
+  async getUser(user: User){
+  const users = await this.prisma.user.findUnique({
+        where: {
+          email: user.email,
+        },
+      });
+
+      if (!users) throw new ForbiddenException('Access Denied');
+
+      return  users ;
   }
-
 }

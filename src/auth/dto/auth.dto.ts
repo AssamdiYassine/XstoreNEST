@@ -15,11 +15,11 @@ export class AuthDtoRegistration {
 
   @IsNotEmpty()
   @IsString()
-  lastName: string;
+  last_name: string;
 
   @IsNotEmpty()
   @IsString()
-  firstName: string;
+  first_name: string;
 
 
   @IsNotEmpty()
@@ -34,7 +34,7 @@ export class AuthDtoRegistration {
   @IsString()
   gender: string;
 
-
+  @IsNotEmpty()
   has_accepted_conds: Boolean;
 
 

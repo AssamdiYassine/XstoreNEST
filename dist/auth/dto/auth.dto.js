@@ -32,12 +32,12 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], AuthDtoRegistration.prototype, "lastName", void 0);
+], AuthDtoRegistration.prototype, "last_name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], AuthDtoRegistration.prototype, "firstName", void 0);
+], AuthDtoRegistration.prototype, "first_name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
@@ -53,6 +53,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], AuthDtoRegistration.prototype, "gender", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Boolean)
+], AuthDtoRegistration.prototype, "has_accepted_conds", void 0);
 exports.AuthDtoRegistration = AuthDtoRegistration;
 class AuthDtoLogin {
 }
